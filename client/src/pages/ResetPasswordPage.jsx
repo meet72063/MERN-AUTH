@@ -1,12 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as Yup from 'yup'
-import { useDispatch } from 'react-redux'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
-import { resetPassword } from '../features/auth/authThunk'
+import useErrorHandler from '../hooks/useErrorHandler'
+import { resetPassword } from '../api/user'
+import Loader from '../components/Loader'
 
 const ResetPassword = () => {
+    const [isLoading, setIsLoading] = useState(false);
+    const { handleError } = useErrorHandler()
     const { token } = useParams();
 
 
@@ -31,11 +34,16 @@ const ResetPassword = () => {
 
 
 
-    const dispatch = useDispatch()
     const navigate = useNavigate()
     const onSubmit = async (data) => {
         const { newPassword } = data
-        await resetPassword({ newPassword, token }, navigate)
+        setIsLoading(true)
+        resetPassword({ newPassword, token })
+            .catch(handleError)
+            .finally(() => {
+                setIsLoading(false)
+                navigate("/login")
+            })
     }
 
     if (!token) {
@@ -76,9 +84,9 @@ const ResetPassword = () => {
                 <button
                     type="submit"
                     className="w-fit px-10 py-2 text-white bg-teal-500 rounded-md hover:bg-teal-600 focus:outline-none focus:ring focus:border-teal-300 "
-
+                    disabled={isLoading}
                 >
-                    Reset
+                    {isLoading ? <Loader /> : "Reset"}
                 </button>
             </form>
         </div>

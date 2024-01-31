@@ -2,15 +2,16 @@ import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as Yup from 'yup'
-import { useDispatch } from 'react-redux'
-import { requestResetPasswordLink } from '../features/auth/authThunk'
 import useErrorHandler from '../hooks/useErrorHandler'
-import { toast } from 'react-toastify'
+import { requestResetPasswordLink } from '../api/user'
+import Loader from '../components/Loader'
+
 
 const ResetPasswordRequest = () => {
     const [isSubmit, setIsSubmit] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
     const [email, setEmail] = useState(null)
-    const { error, handleError } = useErrorHandler()
+    const { handleError } = useErrorHandler()
     const schema = Yup.object({
         email: Yup.string().email("wrong email format").required("email is required")
     })
@@ -23,15 +24,13 @@ const ResetPasswordRequest = () => {
     })
 
 
-    const dispatch = useDispatch()
     const onSubmit = (data) => {
         setEmail(data.email)
+        setIsLoading(true)
         requestResetPasswordLink(data)
-            .then((res) => {
-                toast.success(res.data.message)
-                setIsSubmit(true)
-            })
+            .then(() => setIsSubmit(true))
             .catch(handleError)
+            .finally(() => setIsLoading(false))
     }
 
 
@@ -58,9 +57,9 @@ const ResetPasswordRequest = () => {
                     <button
                         type="submit"
                         className="w-fit px-10 py-2 text-white bg-teal-500 rounded-md hover:bg-teal-600 focus:outline-none focus:ring focus:border-teal-300 "
-
+                        disabled={isLoading}
                     >
-                        Send
+                        {isLoading ? <Loader /> : "Send"}
                     </button>
                 </form>
             </div> :
@@ -69,7 +68,7 @@ const ResetPasswordRequest = () => {
                         A reset link has been sent to your email
                     </p>
                     <p className="text-teal-500 text-lg font-serif my-4">
-                        {email} amitpardhan589@gmail.com
+                        <a href="https://mail.google.com/" target='_blank'>{email}</a>
                     </p>
                     <p className=" mt-2">
                         It can take up to 20 minutes to receive our email
@@ -78,10 +77,6 @@ const ResetPasswordRequest = () => {
                         Note: <b className=''>You have 15 minutes to reset your password</b>
                     </p>
                 </div>}
-
-
-
-
         </div>
     )
 }

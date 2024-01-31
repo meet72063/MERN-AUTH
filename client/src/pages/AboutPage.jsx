@@ -26,7 +26,7 @@ const AuthPage = () => {
                 You're invited to contribute and improve MERN-AUTH on GitHub.
                 <br />
                 <span className="text-blue-500 hover:underline">
-                    [GitHub: <a href="https://github.com/meeetp72063/MERN-AUTH" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">MERN-AUTH</a>]
+                    [GitHub: <a href="https://github.com/meet72063/MERN-AUTH" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">MERN-AUTH</a>]
                 </span>
             </p>
 

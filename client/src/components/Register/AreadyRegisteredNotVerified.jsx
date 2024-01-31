@@ -9,7 +9,9 @@ const AlreadyRegisteredNotVerified = ({ resendConformation, email }) => {
             <div className="text-gray-700 mt-2 space-y-2">
                 <p > You should have received a verification email.</p>
                 <p> <span className='font-serif'> Check your mailbox:</span>
-                    <span className='text-md dark:text-dark-primary text-teal-500 ml-2'>{email}</span><br />
+                    <span className='text-md dark:text-dark-primary text-teal-500 ml-2'>
+                        <a href="https://mail.google.com/" target='_blank'>{email}</a>
+                    </span><br />
                     If not, click the button below to resend it.</p>
             </div>
             <button

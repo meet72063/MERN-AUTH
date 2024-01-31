@@ -17,7 +17,7 @@ const Profile = () => {
                 <h1 className="text-2xl font-bold text-teal-600 mb-2 text-center capitalize">{user.name}</h1>
                 <div className="text-gray-600 mb-6f flex items-center gap-2">
                     <img src={emailPng} alt="email icon" width="25px" height="25px" />
-                    <span>{user.email}</span></div>
+                    <a href='https://mail.google.com' target='_blank'>{user.email}</a></div>
 
             </div>
         </div>

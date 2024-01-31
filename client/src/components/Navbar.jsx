@@ -4,6 +4,7 @@ import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { getUser, logOut } from '../features/auth/authSlice';
 import { useDispatch } from 'react-redux';
 import avatar from '../assets/avatar.png';
+import { toast } from 'react-toastify'
 
 const Navbar = () => {
     const { user } = getUser();
@@ -14,6 +15,7 @@ const Navbar = () => {
 
     const handleLogout = () => {
         dispatch(logOut());
+        toast.info("Logged out!")
         navigate("/", { replace: true });
     }
 

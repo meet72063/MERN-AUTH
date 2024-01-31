@@ -35,9 +35,18 @@ const googleAuthController = async (req, res) => {
 
   //if user does not exist
   if (!user) {
+    //create dummy Strong password
+    let password = sub + process.env.DUMMY_PASSWORD_SECRET + email;
     // Create user
-    user = await User.create({ name, email, googleId: sub, picture });
-  } else if (user && !user.googleId && user.isVerified) {
+    user = await User.create({
+      name,
+      email,
+      googleId: sub,
+      picture,
+      password,
+      isVerified: true,
+    });
+  } else if (user && !user.googleId) {
     //if user already registered with Email and password
     //add google id
     user.googleId = sub;
@@ -62,7 +71,7 @@ const googleAuthController = async (req, res) => {
   res.status(201).json({
     success: true,
     user: payload,
-    message: "successfully signed in",
+    message: "Signed in successfully",
   });
 };
 
@@ -125,7 +134,7 @@ const sigInController = async (req, res) => {
 
   //Check if User with provided email exist
   const user = await User.findOne({ email });
-
+  //if no user or user is signed in with Google
   if (!user) {
     res.status(404);
     throw new Error("User does not exist,please Sign up");

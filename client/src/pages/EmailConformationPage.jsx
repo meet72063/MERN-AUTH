@@ -1,19 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams, useNavigate, Navigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { activateAccount } from '../features/auth/authSlice';
+import useErrorHandler from '../hooks/useErrorHandler';
+import { activateAccount } from '../api/auth';
+import Loader from '../components/Loader';
 
 const EmailConfirmationPage = () => {
+    const [isLoading, setIsLoading] = useState(false);
+    const { handleError } = useErrorHandler()
     const { token } = useParams();
-
-    const dispatch = useDispatch()
     const navigate = useNavigate()
     if (!token) {
         return <Navigate to='/home' replace />;
     }
 
     const handleSubmit = () => {
-        dispatch(activateAccount({ token, navigate }))
+        setIsLoading(true)
+        activateAccount(token)
+            .then(() => navigate("/login"))
+            .catch(handleError)
+            .finally(() => setIsLoading(false))
     };
 
     return (
@@ -28,8 +33,9 @@ const EmailConfirmationPage = () => {
                 <button
                     onClick={handleSubmit}
                     className="bg-teal-500 text-white rounded-md px-4 py-2 hover:bg-teal-600 focus:outline-none focus:shadow-outline-teal"
+                    disabled={isLoading}
                 >
-                    Confirm Email
+                    {isLoading ? <Loader /> : "Confirm Email"}
                 </button>
             </div>
         </div>

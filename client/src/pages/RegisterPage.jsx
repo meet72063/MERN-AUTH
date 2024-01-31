@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import SignUp from '../components/Register/SignUp';
 import VerificationInstructions from '../components/Register/VerificationInstructions';
 import { Navigate } from 'react-router-dom';
-import { attempRegister, resendVerification } from '../features/auth/authThunk';
 import useErrorHandler from '../hooks/useErrorHandler';
 import AlreadyRegisteredNotVerified from '../components/Register/AreadyRegisteredNotVerified';
+import { attemptRegister, resendVerification } from '../api/auth';
 
 export const REGISTER = "REGISTER"
 export const VERIFICATION = "VERIFICATION"
@@ -13,14 +13,14 @@ export const REGISTERNOTVERIFIED = "REGISTERNOTVERIFIED"
 
 const Register = () => {
     const [registerStep, setRegisterStep] = useState(REGISTER);
-    const { error, handleError } = useErrorHandler()
+    const { handleError } = useErrorHandler()
     const [email, setEmail] = useState(null);
     const [isLoading, setIsLoading] = useState(false)
 
     const attemptSignUp = async (data) => {
         setIsLoading(true)
         setEmail(data.email)
-        attempRegister(data)
+        attemptRegister(data)
             .then(() =>
                 setRegisterStep(VERIFICATION)
             )

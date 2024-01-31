@@ -6,7 +6,8 @@ const VerificationInstructions = ({ resendConfirmation, reset, email }) => {
             <p className="text-gray-700  text-lg font-serif">
                 Great! We've sent a verification link to your email <br />
                 <span className='text-xl text-light-primary dark:text-dark-primary'>
-                    {email}</span>.
+                    <a href="https://mail.google.com/" target='_blank'>{email}</a>
+                </span>.
 
             </p>
             <ol className="text-left mt-4 mb-6 text-teal-700 space-y-1 ">

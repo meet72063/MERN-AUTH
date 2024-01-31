@@ -5,23 +5,7 @@ import {
   setUserToLocalStorage,
 } from "../../utils/localStorage";
 
-import {
-  attemptLoginThunk,
-  activateAccountThunk,
-  googleSignUpThunk,
-} from "./authThunk";
 import { useSelector } from "react-redux";
-
-export const loginUser = createAsyncThunk("auth/login", attemptLoginThunk);
-export const activateAccount = createAsyncThunk(
-  "auth/activateAccount",
-  activateAccountThunk
-);
-
-export const googleSignUp = createAsyncThunk(
-  "auth/googleSignUp",
-  googleSignUpThunk
-);
 
 const initialState = {
   user: getUserFromLocalStorage(),
