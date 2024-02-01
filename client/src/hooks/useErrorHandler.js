@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { toast } from "react-toastify";
 
 const useErrorHandler = () => {
@@ -6,7 +6,8 @@ const useErrorHandler = () => {
 
   const handleError = (err) => {
     setError(err.response.data);
-    const errMsg = err.response.data.message;
+    const errMsg =
+      err.response?.data?.message || "Something went wrong,try again!";
     toast.error(errMsg);
   };
 
